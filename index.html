@@ -1,0 +1,560 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dessert — пропозиції тижня</title>
+
+<style>
+@font-face{font-family:'Dela Gothic One';font-weight:400;font-display:swap;src:url(fonts/dela-400-cyr.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+@font-face{font-family:'Dela Gothic One';font-weight:400;font-display:swap;src:url(fonts/dela-400-lat.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Jost';font-weight:400;font-display:swap;src:url(fonts/jost-400-cyr.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+@font-face{font-family:'Jost';font-weight:400;font-display:swap;src:url(fonts/jost-400-lat.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+20B4,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Jost';font-weight:500;font-display:swap;src:url(fonts/jost-500-cyr.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+@font-face{font-family:'Jost';font-weight:500;font-display:swap;src:url(fonts/jost-500-lat.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+20B4,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Jost';font-weight:700;font-display:swap;src:url(fonts/jost-700-cyr.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+@font-face{font-family:'Jost';font-weight:700;font-display:swap;src:url(fonts/jost-700-lat.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+20B4,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+
+/* Палітра бренду — одна світла тема: айдентика Dessert не має темного варіанту */
+:root{
+  color-scheme:light;
+  --orange:#F66518; --umber:#632E15; --sky:#AFDBF5; --cream:#FDE9D2; --almond:#E6D1BF;
+  --paper:#FFF6EE; --ink:#3A1D0E; --muted:#8A6953; --line:#EFDCC8; --card:#FFFFFF;
+  /* другий голос «Бо хочу» — блакитний з брендбуку, змінюється тут одним рядком */
+  --pop:#AFDBF5; --pop-deep:#2D78B8; --pop-light:#E6F4FD; --pop-ink:#1D3550; --pop-soft-ink:#3E5870;
+  --pad:clamp(16px,4vw,48px); --max:1180px; --r:20px;
+  --header:64px;
+}
+:root[data-world="tepliy"]  { --accent:var(--orange); --tile:var(--cream);     --btn:var(--orange); --btn-ink:#FFF6EE; }
+:root[data-world="bo-hochu"]{ --accent:var(--pop-deep); --tile:var(--pop-light); --btn:var(--pop);  --btn-ink:var(--pop-ink); }
+
+*{box-sizing:border-box}
+/* сторінка не повинна їздити вбік на телефоні: обрізаємо все, що ширше екрана */
+html,body{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 'Jost',-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+h1,h2,h3{font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;line-height:1;letter-spacing:-.01em;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--pad)}
+.eyebrow{display:block;font-size:.72rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+section{position:relative}
+
+/* ───── Шапка: суцільне тло без розмиття — на iPhone розмиття тремтить при скролі ───── */
+.nav{position:sticky;top:0;z-index:40;height:var(--header);background:var(--paper);border-bottom:1px solid var(--line)}
+.nav .wrap{height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo img{height:40px;width:auto}
+.toggle{position:relative;display:flex;padding:3px;border-radius:999px;background:var(--card);border:1.5px solid var(--umber)}
+.toggle .thumb{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;background:var(--umber);
+  transition:transform .45s cubic-bezier(.65,0,.2,1),background .45s}
+:root[data-world="bo-hochu"] .toggle .thumb{transform:translateX(100%);background:var(--pop)}
+.toggle button{position:relative;z-index:1;border:0;background:none;cursor:pointer;font-weight:700;font-size:.82rem;
+  padding:7px 14px;border-radius:999px;white-space:nowrap;transition:color .3s}
+:root[data-world="tepliy"] .toggle [data-w="tepliy"]{color:#fff}
+:root[data-world="bo-hochu"] .toggle [data-w="bo-hochu"]{color:var(--pop-ink)}
+
+/* ───── Хвилі-глазур: безшовна плитка 800 px, шар ширший рівно на одну плитку — рух нескінченний ───── */
+.pattern{position:absolute;inset:0;overflow:hidden;pointer-events:none;contain:paint}
+.pattern i{position:absolute;top:0;bottom:0;left:0;width:calc(100% + 800px);
+  background-repeat:repeat;background-size:800px 640px;animation:flow 60s linear infinite;will-change:transform}
+@keyframes flow{from{transform:translate3d(0,0,0)}to{transform:translate3d(-800px,0,0)}}
+
+/* ───── Герой: слоган розділу + мозаїка товарів ───── */
+.hero{overflow:hidden;border-bottom:1px solid var(--line)}
+.hero .wrap{position:relative;display:grid;gap:clamp(20px,3vw,48px);align-items:center;
+  padding-block:clamp(20px,3.2vw,40px);min-height:min(calc(100svh - var(--header)),640px)}
+@media(min-width:860px){.hero .wrap{grid-template-columns:1.08fr .92fr}}
+.kicker{display:inline-block;padding:5px 12px;border-radius:999px;border:1.5px solid currentColor;
+  font-size:.68rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-size:clamp(2rem,1rem + 3.2vw,3.5rem)}
+.hero .text{margin-top:14px;max-width:42ch;color:var(--muted);font-size:1.02rem}
+.hero .btn{margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;border-radius:999px;white-space:nowrap;
+  background:var(--btn);color:var(--btn-ink);font-weight:700;font-size:1rem;padding:13px 22px;transition:transform .18s ease,box-shadow .18s ease}
+.btn svg{flex:none}
+@media(hover:hover){.btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 -3px color-mix(in srgb,var(--btn) 35%,transparent)}}
+
+.mosaic{position:relative;justify-self:center;width:100%;max-width:500px}
+.mosaic .m{display:grid;grid-template-columns:1fr 1fr;gap:10px;aspect-ratio:1;max-height:min(58svh,500px);margin-inline:auto}
+.mosaic .m span{border-radius:22px;overflow:hidden;background:var(--tile)}
+.mosaic .m img{width:100%;height:100%;object-fit:cover}
+.stamp{position:absolute;right:-6px;bottom:-12px;width:96px;height:96px;border-radius:50%;display:grid;place-items:center;text-align:center;
+  background:var(--umber);color:var(--cream);font-size:.6rem;font-weight:500;line-height:1.3;letter-spacing:.1em;text-transform:uppercase;padding:12px;transform:rotate(-8deg)}
+
+:root[data-world="bo-hochu"] .hero{background:var(--orange);color:#fff}
+:root[data-world="bo-hochu"] .hero .text{color:#FFE4D2}
+:root[data-world="bo-hochu"] .mosaic .m span{box-shadow:0 0 0 4px #fff}
+:root[data-world="bo-hochu"] .stamp{background:var(--pop);color:var(--pop-ink)}
+
+@media(max-width:859px){
+  .hero .wrap{min-height:0;padding-block:16px 26px;gap:18px}
+  .mosaic{order:-1;max-width:none}
+  .mosaic .m{aspect-ratio:auto;height:min(34svh,280px);max-height:none;gap:8px}
+  .mosaic .m span{border-radius:16px}
+  .stamp{width:76px;height:76px;font-size:.52rem;right:8px;bottom:-14px}
+  .kicker{margin-bottom:10px}
+  .hero .btn{display:flex;width:100%;margin-top:18px}
+}
+
+/* ───── Секції ───── */
+.sec{padding-block:clamp(40px,6vw,80px)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 24px;flex-wrap:wrap;margin-bottom:clamp(20px,3vw,32px)}
+.head h2{font-size:clamp(1.5rem,1rem + 1.8vw,2.4rem)}
+.head p{color:var(--muted);max-width:40ch;font-size:.95rem}
+
+/* ───── Картки: перша — «Пропозиція тижня», велика ───── */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(10px,1.6vw,20px)}
+@media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
+.card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  transition:transform .2s ease,box-shadow .2s ease}
+.card .ph{position:relative;aspect-ratio:1;background:var(--tile);overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+@media(hover:hover){
+  .card:hover{transform:translateY(-4px);box-shadow:0 14px 28px -18px rgba(99,46,21,.45)}
+  .card:hover .ph img{transform:scale(1.05)}
+  .card:hover .go{transform:translateX(3px)}
+}
+.card .ph.has-cap::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to top,rgba(38,14,4,.78) 0%,rgba(38,14,4,.38) 34%,rgba(38,14,4,0) 62%)}
+.card .cap{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:14px 16px;color:#FFF6EE;
+  font-family:'Dela Gothic One',sans-serif;font-size:clamp(1rem,.7rem + 1.1vw,1.5rem);line-height:.98;letter-spacing:-.01em;
+  text-wrap:balance;text-shadow:0 2px 12px rgba(38,14,4,.35)}
+.card .badge{position:absolute;top:12px;left:12px;z-index:2;padding:5px 11px;border-radius:999px;background:var(--btn);color:var(--btn-ink);
+  font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.card .bd{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card h3{font-family:'Jost',sans-serif;font-weight:700;font-size:clamp(.92rem,.85rem + .3vw,1.05rem);line-height:1.25;letter-spacing:0}
+.card .row{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card .p{font-family:'Dela Gothic One',sans-serif;font-size:1.05rem;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.card .p small{font-family:'Jost',sans-serif;font-size:.72rem;font-weight:500;color:var(--muted)}
+.card .go{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--btn);color:var(--btn-ink);transition:transform .2s ease}
+
+/* велика картка */
+.card.feat{grid-column:span 2}
+.card.feat .ph{aspect-ratio:16/10}
+.card.feat .cap{font-size:clamp(1.35rem,.9rem + 1.8vw,2.3rem);padding:18px 20px}
+.card.feat h3{font-size:clamp(1rem,.9rem + .4vw,1.2rem)}
+.card.feat .p{font-size:1.3rem}
+@media(min-width:900px){
+  .card.feat{grid-row:span 2}
+  .card.feat .ph{aspect-ratio:auto;flex:1 1 auto;min-height:280px}
+  .card.feat .bd{flex:0 0 auto}
+}
+@media(max-width:520px){
+  .card .bd{padding:10px 11px 12px;gap:8px}.card .go{width:32px;height:32px}.card .p{font-size:.95rem}
+  .card:not(.feat) .p small{display:block;margin-top:3px}
+  .card .cap{padding:10px 11px;font-size:1rem}
+  .card.feat .cap{font-size:1.4rem;padding:14px}
+  .card.feat .p{font-size:1.15rem}
+}
+
+/* яскраві картки: кольоровий низ */
+:root[data-world="bo-hochu"] .card{border:0}
+:root[data-world="bo-hochu"] .card.feat .bd{background:var(--umber);color:var(--cream)}
+:root[data-world="bo-hochu"] .card.feat .p{color:var(--pop)}
+:root[data-world="bo-hochu"] .card.t1 .bd{background:var(--pop);color:var(--pop-ink)}
+:root[data-world="bo-hochu"] .card.t2 .bd{background:var(--orange);color:#fff}
+:root[data-world="bo-hochu"] .card.t3 .bd{background:var(--sky);color:var(--umber)}
+:root[data-world="bo-hochu"] .card.t4 .bd{background:var(--pop-deep);color:#fff}
+:root[data-world="bo-hochu"] .card:not(.feat) .p{color:inherit}
+:root[data-world="bo-hochu"] .card .p small{color:inherit;opacity:.8}
+:root[data-world="bo-hochu"] .card .go{background:#fff;color:var(--pop-deep)}
+
+/* ───── Місток між світами ───── */
+.bridge{border-radius:28px;overflow:hidden;position:relative;display:grid;gap:20px;align-items:center;
+  padding:clamp(22px,4vw,44px);grid-template-columns:1fr}
+@media(min-width:860px){.bridge{grid-template-columns:1.1fr .9fr}}
+.bridge h2{font-size:clamp(1.4rem,1rem + 1.6vw,2.2rem)}
+.bridge p{margin-top:10px;max-width:40ch}
+.bridge .btn{margin-top:18px}
+.bridge .thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.bridge .thumbs span{aspect-ratio:1;border-radius:18px;overflow:hidden;display:block}
+.bridge .thumbs img{width:100%;height:100%;object-fit:cover}
+:root[data-world="tepliy"] .bridge{background:var(--pop);color:var(--pop-ink)}
+:root[data-world="tepliy"] .bridge p{color:var(--pop-soft-ink)}
+:root[data-world="tepliy"] .bridge .btn{background:#fff;color:var(--pop-deep)}
+:root[data-world="bo-hochu"] .bridge{background:var(--cream);color:var(--ink);border:1px solid var(--line)}
+:root[data-world="bo-hochu"] .bridge p{color:var(--muted)}
+:root[data-world="bo-hochu"] .bridge .btn{background:var(--umber);color:var(--cream)}
+
+/* ───── Солодке передбачення ───── */
+.pred{text-align:center;overflow:hidden}
+.pred .wrap{display:grid;justify-items:center}
+.pred h2{font-size:clamp(1.5rem,1rem + 1.8vw,2.4rem)}
+.pred .lead{margin-top:10px;color:var(--muted);max-width:44ch}
+.choco{position:relative;width:min(380px,84vw);aspect-ratio:380/220;margin-top:28px;border:0;padding:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.choco .paper{position:absolute;inset:14% 16%;border-radius:10px;background:#FFFDF9;display:grid;place-items:center;padding:10px 14px;
+  box-shadow:0 10px 24px -12px rgba(99,46,21,.5),inset 0 0 0 1px #F1E3D3;
+  transform:scale(.7);opacity:0;transition:transform .45s cubic-bezier(.2,.9,.3,1.25) .18s,opacity .3s .18s}
+.choco .paper small{display:block;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.choco .paper b{font-family:'Dela Gothic One',sans-serif;font-weight:400;font-size:clamp(.95rem,.8rem + .7vw,1.25rem);line-height:1.15;color:var(--umber);text-wrap:balance}
+.choco .half{position:absolute;inset:0;border-radius:16px;overflow:hidden;background:linear-gradient(150deg,#7B3B1C,#4A2110);
+  box-shadow:0 18px 30px -18px rgba(60,25,10,.7);transition:transform .6s cubic-bezier(.6,-.2,.2,1.3)}
+.choco .half.l{clip-path:polygon(0 0,52% 0,49% 18%,53% 38%,48% 60%,52% 80%,47% 100%,0 100%)}
+.choco .half.r{clip-path:polygon(52% 0,100% 0,100% 100%,47% 100%,52% 80%,48% 60%,53% 38%,49% 18%)}
+.choco .sq{position:absolute;inset:12px;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:7px}
+.choco .sq i{border-radius:6px;background:linear-gradient(145deg,rgba(255,225,190,.2),rgba(0,0,0,.25))}
+.choco .mark{position:absolute;inset:0;display:grid;place-items:center;font-family:'Dela Gothic One',sans-serif;color:rgba(253,233,210,.85);font-size:1.4rem;transition:opacity .2s}
+.choco.open .half.l{transform:translateX(-44%) rotate(-8deg)}
+.choco.open .half.r{transform:translateX(44%) rotate(8deg)}
+.choco.open .mark{opacity:0}
+.choco.open .paper{transform:scale(1);opacity:1}
+@media(max-width:520px){.choco.open .half.l{transform:translateX(-28%) rotate(-6deg)}.choco.open .half.r{transform:translateX(28%) rotate(6deg)}.choco .paper{inset:12% 21%}}
+.pred .hint{margin-top:22px;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.pred .pred-cta{margin-top:30px;max-width:40ch;font-weight:500;color:var(--ink)}
+.pred .btn{margin-top:16px}
+
+/* ───── Фінал: єдине посилання на весь каталог ───── */
+.final{overflow:hidden;background:var(--umber);color:var(--cream);text-align:center}
+.final .wrap{position:relative;display:grid;justify-items:center;gap:14px;padding-block:clamp(44px,7vw,84px)}
+.final .slogan{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:#C79C7C}
+.final h2{font-size:clamp(1.7rem,1rem + 2.6vw,3rem);color:#FFF1E2}
+.final p{color:#DDBBA0;max-width:40ch}
+.final .btn{margin-top:8px;background:var(--orange);color:#fff}
+:root[data-world="bo-hochu"] .final .btn{background:var(--pop);color:var(--pop-ink)}
+.social{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.social a{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;border:1.5px solid rgba(253,233,210,.35);color:var(--cream);font-weight:500;font-size:.9rem;transition:background .2s,border-color .2s}
+@media(hover:hover){.social a:hover{background:rgba(253,233,210,.1);border-color:var(--cream)}}
+.social svg{width:18px;height:18px;flex:none}
+.social:empty{display:none}
+footer{background:#4E230F;color:#B8906F;font-size:.75rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:16px}
+footer a{text-decoration:underline;text-underline-offset:3px}
+
+/* ───── Заливка при перемиканні світів ───── */
+.glaze{position:fixed;inset:0;z-index:90;pointer-events:none;transform:translateY(-115%);transition:transform .42s cubic-bezier(.7,0,.3,1)}
+.glaze .fill{position:absolute;inset:0;background:var(--glaze,var(--orange))}
+.glaze svg{position:absolute;left:0;right:0;top:100%;width:100%;height:11vh}
+.glaze path{fill:var(--glaze,var(--orange))}
+.glaze.cover{transform:translateY(0)}
+.glaze.gone{transform:translateY(115%);transition-duration:.46s}
+.glaze.instant{transition:none}
+
+@media(max-width:520px){
+  :root{--header:56px}
+  .logo img{height:30px}
+  .toggle button{font-size:.74rem;padding:6px 10px}
+  body{font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}}
+</style>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Dessert — на початок"><img src="img/logo.svg" alt="Dessert — твоє маленьке можна" width="834" height="246"></a>
+    <div class="toggle" role="group" aria-label="Обрати світ">
+      <span class="thumb" aria-hidden="true"></span>
+      <button type="button" data-w="tepliy" aria-pressed="true">Той самий</button>
+      <button type="button" data-w="bo-hochu" aria-pressed="false">Бо хочу</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="pattern" aria-hidden="true"><i data-pattern="hero"></i></div>
+    <div class="wrap">
+      <div>
+        <span class="kicker" data-f="kicker"></span>
+        <h1 data-f="title"></h1>
+        <p class="text" data-f="text"></p>
+        <a class="btn" href="#products" data-f="cta" data-track="hero_cta"></a>
+      </div>
+      <div class="mosaic">
+        <div class="m" data-f="mosaic"></div>
+        <span class="stamp" data-f="stamp"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="products" style="scroll-margin-top:var(--header)">
+    <div class="wrap">
+      <div class="head">
+        <div><span class="eyebrow" data-f="gridEyebrow"></span><h2 data-f="gridTitle"></h2></div>
+        <p data-f="gridText"></p>
+      </div>
+      <div class="grid" data-f="grid"></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap"><div class="bridge" data-f="bridge"></div></div>
+  </section>
+
+  <section class="sec pred" style="padding-top:clamp(8px,2vw,24px)">
+    <div class="wrap">
+      <span class="eyebrow" data-f="predEyebrow"></span>
+      <h2>Солодке передбачення</h2>
+      <p class="lead">Розламай шоколадку — і дізнайся, що на тебе чекає.</p>
+      <button class="choco" id="choco" type="button" aria-label="Розламати шоколадку">
+        <span class="paper" aria-live="polite"><span><small>Твоє передбачення</small><b id="fortune"></b></span></span>
+        <span class="half l" aria-hidden="true"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></span>
+        <span class="half r" aria-hidden="true"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></span>
+        <span class="mark" aria-hidden="true">Dessert</span>
+      </button>
+      <p class="hint" id="hint">Натисни, щоб розламати</p>
+      <p class="pred-cta">А справжнє передбачення з подарунком чекає в кожному замовленні від 500 ₴</p>
+      <a class="btn" href="#products" data-f="predCta" data-track="pred_cta">Зібрати набір</a>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="pattern" aria-hidden="true"><i data-pattern="final"></i></div>
+    <div class="wrap">
+      <span class="slogan">Місце, де знаходять смак</span>
+      <h2>Не знайшов своє?</h2>
+      <p>На сайті — понад 1000 позицій: вагові цукерки, торти, набори й новинки.</p>
+      <a class="btn" data-f="catalogLink" data-track="catalog">Перейти в каталог
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="social" data-f="social"></div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>Dessert — інтернет-магазин солодощів</span><a data-f="footLink">desssert.com.ua</a></div></footer>
+
+<div class="glaze" id="glaze" aria-hidden="true">
+  <span class="fill"></span>
+  <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0 0h1200v22c-28 0-34 26-34 44s-8 30-22 30-20-14-20-32-6-30-26-30-30 16-30 38-10 34-26 34-22-18-22-40-10-32-30-32-28 20-28 42-12 30-26 30-20-16-20-36-8-34-30-34-30 18-30 40-10 28-24 28-22-14-22-34-10-36-32-36-28 22-28 44-12 26-26 26-20-14-20-32-10-34-30-34-30 18-30 38-10 32-26 32-22-16-22-36-8-30-28-30-30 18-30 40-12 28-26 28-20-16-20-34-8-32-28-32-28 16-28 36-10 30-24 30-22-14-22-32-8-28-26-28V0z"/></svg>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   ВМІСТ ЛЕНДИНГА — єдине місце, яке редагує маркетолог.
+   Ціни й посилання взяті з desssert.com.ua 21.09.2026.
+   Перший товар у списку — «Пропозиція тижня» (велика картка).
+   ════════════════════════════════════════════════════════════════ */
+const SITE = 'https://desssert.com.ua';
+
+const SOCIAL = {
+  instagram: 'https://www.instagram.com/desssert_ua/',
+  tiktok: 'https://www.tiktok.com/@dessert_kharkov'
+};
+
+const OFFERS = {
+  tepliy: {
+    hero: {
+      kicker: 'Той самий',
+      title: 'Смак, родом із дитинства',
+      text: 'Торти, печиво й цукерки, які пам’ятаєш зі свят і з бабусиної шафки. З доставкою по всій Україні.',
+      cta: 'Обрати смак',
+      mosaic: ['img/triumf.webp', 'img/kharkiv.webp', 'img/asorti-retro.webp', 'img/babusyn.webp'],
+      stamp: '17 років · з Харкова'
+    },
+    gridEyebrow: 'Пропозиції тижня',
+    gridTitle: 'Що взяти до чаю',
+    gridText: 'П’ять смаків, які впізнають з першого шматочка.',
+    items: [
+      { name: 'Торт «Тріумф»',            badge: 'Пропозиція тижня', caption: 'Сезон гарячого чаю відкрито', price: '853,75 ₴', unit: '', img: 'img/triumf.webp', slug: 'triumf', url: '/ua/torty-i-pirozhnoe/torty%C2%A0vafelnye/tort-triumf' },
+      // «Оленка», «Білочка», «Кара-кум», «Червоний мак», «Ведмедик клишоногий», «Корівка». Повна упаковка — 2 кг (562,60 ₴).
+      { name: 'Асорті «Ретро» ХЗПТ', caption: 'Шість смаків, які пам’ятають', price: '281,30 ₴', unit: '/1 кг', img: 'img/asorti-retro.webp', slug: 'asorti-retro', url: '/ua/index.php?route=product/product&path=1_101&product_id=1513' },
+      { name: 'Набір «Харківська Мрія»', caption: 'Харків у коробці',  price: '493,75 ₴', unit: '', img: 'img/kharkiv.webp', slug: 'kharkivska-mriya', url: '/ua/nabory/podarunkov%D1%96-nabori/nabor-kharkovskaya-mechta' },
+      { name: 'Набір «Бабусин»',                                       price: '543,48 ₴', unit: '', img: 'img/babusyn.webp', slug: 'babusyn',          url: '/ua/nabory/podarunkov%D1%96-nabori/degustatsionnyj-nabor' },
+      // ЩЕ НЕМАЄ КАРТКИ НА САЙТІ. Склад: Горілка + Віскі + Вишня цук. Польща — по 200 г.
+      // Поки веде на категорію шоколадних цукерок; замінити url, коли клієнт створить картку.
+      { name: 'Алкогольні цукерки «Польща»', caption: 'Для дорослих вечорів', price: '556,26 ₴', unit: '/600 г', img: 'img/alko.webp', slug: 'nabir-alko', url: '/ua/konfety/shokoladnye/' }
+    ],
+    bridge: { to: 'bo-hochu', eyebrow: 'Бо хочу', title: 'А дітям — те, що зараз у всіх у стрічці',
+              text: 'Набір новинок, 4Д желейки, морська карамель — від Dessert.', cta: 'Замовити для дітей',
+              thumbs: ['img/box-novynky.webp', 'img/jelly4d.webp', 'img/seacube.webp'] },
+    predEyebrow: '17 років поспіль'
+  },
+
+  'bo-hochu': {
+    hero: {
+      kicker: 'Бо хочу',
+      title: 'Бачив у стрічці? Воно вже тут',
+      text: 'Желейки, карамель і новинки, про які всі говорять. Без «напишіть у Директ» — замовляєш у 3 кліки.',
+      cta: 'Дивитись новинки',
+      mosaic: ['img/jelly4d.webp', 'img/box-novynky.webp', 'img/seacube.webp', 'img/fruktiki.webp'],
+      stamp: 'від Dessert'
+    },
+    gridEyebrow: 'Пропозиції тижня',
+    gridTitle: 'Те, що зараз у всіх',
+    gridText: 'Новинки, які реально є в наявності.',
+    items: [
+      // ЩЕ НЕМАЄ КАРТКИ НА САЙТІ. Склад: 4D желейки, Sea Cube, Фруктики, Квіточка — по 150 г + Galaxy 20 шт.
+      // Поки веде на категорію новинок; замінити url, коли клієнт створить картку.
+      { name: 'Набір новинок «Бо хочу»', badge: 'Пропозиція тижня', caption: 'Хочеш спробувати одразу все?', price: '564,87 ₴', unit: '/600 г + 20 шт', img: 'img/box-novynky.webp', slug: 'nabir-novynok', url: '/ua/konfety/tovary-dlya-malchikov/' },
+      { name: 'Жувальні фрукти 4D', caption: 'Хіт зі стрічки',     price: '262,50 ₴', unit: '/300 г', img: 'img/jelly4d.webp',   slug: 'jelly-4d',  url: '/ua/konfety/tovary-dlya-malchikov/zhevatelnye-frukty-1kg-dzhelli' },
+      { name: 'Карамель Sea Cube',                                 price: '234,39 ₴', unit: '/300 г', img: 'img/seacube.webp',   slug: 'sea-cube',  url: '/ua/konfety/karamel/karamel-sea-cube-candy-1kg' },
+      { name: 'Фруктики асорті',                                   price: '266,25 ₴', unit: '/300 г', img: 'img/fruktiki.webp',  slug: 'fruktiki',  url: '/ua/konfety/tovary-dlya-malchikov/fruktiki-tsukerki-asort%D1%96' },
+      { name: 'Квіточка без цукру', caption: 'Солодко — і без цукру', price: '216,57 ₴', unit: '/300 г', img: 'img/kvitochka.webp', slug: 'kvitochka', url: '/ua/konfety/konfety%C2%A0v%C2%A0upakovke/konf-tsvetochek-bez-sakhara' }
+    ],
+    bridge: { to: 'tepliy', eyebrow: 'Той самий', title: 'А батькам — смак їхнього дитинства',
+              text: '«Тріумф», «Харківська Мрія», асорті «Ретро» — те, що вони точно впізнають.', cta: 'Замовити для батьків',
+              thumbs: ['img/triumf.webp', 'img/kharkiv.webp', 'img/asorti-retro.webp'] },
+    predEyebrow: 'Бонус у коробці'
+  }
+};
+
+const FORTUNES = [
+  'Сьогодні можна двічі.',
+  'Найкраще ще попереду.',
+  'Маленька перемога вже в дорозі.',
+  'Завтра буде легше, ніж здається.',
+  'Хтось зараз згадує тебе з усмішкою.',
+  'Твоє маленьке — можна.',
+  'Скажи «так» тому, що давно відкладаєш.',
+  'Цього тижня пощастить у дрібницях.',
+  'Те, чого чекаєш, прийде не з того боку.',
+  'Пауза, яку ти собі дозволиш, усе змінить.',
+  'Добра новина любить терплячих.',
+  'Хтось скаже тобі «дякую» — і це буде щиро.',
+  'Не поспішай: солодке не терпить поспіху.',
+  'Попереду тиждень, у якому складеться все.',
+  'Твій настрій сьогодні вирішує більше, ніж здається.'
+];
+
+/* ═══════ Посилання з UTM-мітками ═══════ */
+function link(path, world, content){
+  const u = new URL(path, SITE);
+  u.searchParams.set('utm_source', 'landing');
+  u.searchParams.set('utm_medium', 'offer');
+  u.searchParams.set('utm_campaign', world);
+  u.searchParams.set('utm_content', content);
+  return u.href;
+}
+
+/* ═══════ Хвилі-глазур: плитка безшовна і по горизонталі, і по вертикалі ═══════ */
+function glazeTile(ink){
+  const W = 800, H = 640, N = 11, TAU = Math.PI * 2;
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d'); x.strokeStyle = ink; x.lineCap = 'round';
+  for (let i = -2; i <= N + 1; i++){
+    const k = ((i % N) + N) % N;             // параметри хвилі повторюються кожні N рядів → стик невидимий
+    x.beginPath(); x.lineWidth = 30 + 16 * Math.sin(k * 1.7);
+    for (let t = 0; t <= W; t += 5){
+      const y = i * (H / N) + Math.sin(TAU * t / W + k * .9) * H * .075 + Math.sin(TAU * 3 * t / W + k * 2.3) * H * .022;
+      t ? x.lineTo(t, y) : x.moveTo(t, y);
+    }
+    x.stroke();
+  }
+  return 'url(' + c.toDataURL('image/png') + ')';
+}
+const TILE_DARK = glazeTile('rgba(99,46,21,.07)');
+const TILE_LIGHT = glazeTile('rgba(255,244,236,.14)');
+document.querySelector('[data-pattern="final"]').style.backgroundImage = TILE_LIGHT;
+
+/* ═══════ Рендер світу ═══════ */
+const ARROW = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const DOWN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v13M5 12l7 7 7-7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const $ = k => document.querySelector('[data-f="' + k + '"]');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ICON = {
+  instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+  tiktok: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.7 5.7 0 1 0 4.9 5.7V9.1a7.4 7.4 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg>'
+};
+const NAMES = { instagram: 'Instagram', tiktok: 'TikTok' };
+
+function card(it, i, world){
+  const feat = i === 0;
+  const cls = 'card' + (feat ? ' feat' : ' t' + i);
+  return '<a class="' + cls + '" href="' + link(it.url, world, it.slug) + '" data-track="product" data-product="' + it.slug + '">'
+    + '<div class="ph' + (it.caption ? ' has-cap' : '') + '">'
+    + (it.badge ? '<span class="badge">' + esc(it.badge) + '</span>' : '')
+    + '<img src="' + it.img + '" alt="' + esc(it.name) + '" loading="lazy" width="760" height="760">'
+    + (it.caption ? '<span class="cap" aria-hidden="true">' + esc(it.caption) + '</span>' : '') + '</div>'
+    + '<div class="bd"><h3>' + esc(it.name) + '</h3>'
+    + '<div class="row"><span class="p">' + esc(it.price) + (it.unit ? ' <small>' + esc(it.unit) + '</small>' : '') + '</span>'
+    + '<span class="go" aria-hidden="true">' + ARROW + '</span></div></div></a>';
+}
+
+function render(world){
+  const o = OFFERS[world], h = o.hero;
+  document.querySelector('[data-pattern="hero"]').style.backgroundImage = world === 'bo-hochu' ? TILE_LIGHT : TILE_DARK;
+
+  $('kicker').textContent = h.kicker;
+  $('title').textContent = h.title;
+  $('text').textContent = h.text;
+  $('cta').innerHTML = esc(h.cta) + ' ' + DOWN;
+  $('mosaic').innerHTML = h.mosaic.map((src, i) =>
+    '<span><img src="' + src + '" alt="" width="760" height="760"' + (i < 2 ? ' fetchpriority="high"' : '') + '></span>').join('');
+  $('stamp').textContent = h.stamp;
+
+
+  $('gridEyebrow').textContent = o.gridEyebrow;
+  $('gridTitle').textContent = o.gridTitle;
+  $('gridText').textContent = o.gridText;
+  $('grid').innerHTML = o.items.map((it, i) => card(it, i, world)).join('');
+
+  const b = o.bridge;
+  $('bridge').innerHTML = '<div><span class="eyebrow" style="color:inherit;opacity:.7">' + esc(b.eyebrow) + '</span>'
+    + '<h2>' + esc(b.title) + '</h2><p>' + esc(b.text) + '</p>'
+    + '<button class="btn" type="button" data-switch="' + b.to + '">' + esc(b.cta) + ' ' + ARROW + '</button></div>'
+    + '<div class="thumbs" aria-hidden="true">' + b.thumbs.map(src => '<span><img src="' + src + '" alt="" loading="lazy"></span>').join('') + '</div>';
+
+  $('social').innerHTML = Object.entries(SOCIAL).filter(([, u]) => u)
+    .map(([k, u]) => '<a href="' + esc(u) + '" target="_blank" rel="noopener" data-track="social" data-product="' + k + '">' + ICON[k] + NAMES[k] + '</a>').join('');
+
+  $('predEyebrow').textContent = o.predEyebrow;
+  $('catalogLink').href = link('/ua/', world, 'catalog');
+  $('footLink').href = link('/ua/', world, 'footer');
+
+  document.querySelectorAll('.toggle button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.w === world)));
+}
+
+/* ═══════ Перемикання світів: глазур заливає екран ═══════ */
+const root = document.documentElement, glaze = document.getElementById('glaze');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+let busy = false;
+
+function apply(world){
+  root.dataset.world = world;
+  render(world);
+  try { const u = new URL(location.href); u.searchParams.set('svit', world); history.replaceState(null, '', u); } catch (e) {}
+}
+
+function setWorld(world, animate){
+  if (busy || world === root.dataset.world) return;
+  track('world_switch', { world });
+  if (!animate || reduced.matches){ apply(world); window.scrollTo(0, 0); return; }
+  busy = true;
+  glaze.style.setProperty('--glaze', world === 'bo-hochu' ? 'var(--orange)' : 'var(--umber)');
+  glaze.classList.add('cover');
+  setTimeout(() => { apply(world); window.scrollTo({ top: 0, behavior: 'instant' }); glaze.classList.add('gone'); }, 450);
+  setTimeout(() => {
+    glaze.classList.add('instant'); glaze.classList.remove('cover', 'gone'); void glaze.offsetWidth; glaze.classList.remove('instant');
+    busy = false;
+  }, 1000);
+}
+
+document.addEventListener('click', e => {
+  const sw = e.target.closest('[data-w],[data-switch]');
+  if (sw){ setWorld(sw.dataset.w || sw.dataset.switch, true); return; }
+  const cta = e.target.closest('[data-f="cta"],[data-f="predCta"]');
+  if (cta){
+    e.preventDefault();
+    document.getElementById('products').scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth', block: 'start' });
+    track(cta.dataset.track, { world: root.dataset.world });
+    return;
+  }
+  const t = e.target.closest('[data-track]');
+  if (t) track(t.dataset.track === 'product' ? 'product_click' : t.dataset.track === 'social' ? 'social_click' : 'catalog_click',
+               { world: root.dataset.world, product: t.dataset.product || '' });
+});
+
+/* ═══════ Солодке передбачення ═══════ */
+const choco = document.getElementById('choco');
+let last = -1;
+choco.addEventListener('click', () => {
+  if (choco.classList.contains('open')){ choco.classList.remove('open'); document.getElementById('hint').textContent = 'Натисни, щоб розламати'; return; }
+  let i; do { i = Math.floor(Math.random() * FORTUNES.length); } while (i === last);
+  last = i;
+  document.getElementById('fortune').textContent = FORTUNES[i];
+  choco.classList.add('open');
+  document.getElementById('hint').textContent = 'Натисни ще раз — буде нове';
+  track('prediction_open', { world: root.dataset.world });
+});
+
+/* ═══════ Аналітика: GA4 + Meta Pixel + TikTok Pixel підключаться тут ═══════ */
+function track(event, params){
+  try { window.gtag && gtag('event', event, params); } catch (e) {}
+  try { window.fbq && fbq('trackCustom', event, params); } catch (e) {}
+  try { window.ttq && ttq.track(event, params); } catch (e) {}
+}
+
+/* ═══════ Старт зі світу з реклами: ?svit=tepliy | ?svit=bo-hochu ═══════ */
+const fromUrl = new URLSearchParams(location.search).get('svit');
+apply(OFFERS[fromUrl] ? fromUrl : 'tepliy');
+</script>
